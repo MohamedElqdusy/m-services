@@ -122,8 +122,6 @@ func FindPatient(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	endPointUrl := fmt.Sprintf("%s/patient/%v", patientServiceUrl, id)
 	response, err := http.Get(endPointUrl)
 	utils.HandleError(err)
-	err = json.NewEncoder(w).Encode(response)
-	utils.HandleError(err)
 	data, errr := ioutil.ReadAll(response.Body)
 	utils.HandleError(errr)
 	fmt.Fprintf(w, string(data))
@@ -132,8 +130,6 @@ func FindPatient(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func FindPatients(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	endPointUrl := fmt.Sprintf("%s/patients", patientServiceUrl)
 	response, err := http.Get(endPointUrl)
-	utils.HandleError(err)
-	err = json.NewEncoder(w).Encode(response)
 	utils.HandleError(err)
 	data, errr := ioutil.ReadAll(response.Body)
 	utils.HandleError(errr)
