@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS patients(id serial NOT NULL,first_name character varying(100) ,last_name character varying(100),password character varying(100),email character varying(100) NOT NULL,created_at date,CONSTRAINT patients_pkey PRIMARY KEY (id));

@@ -1,0 +1,84 @@
+version: "3.3"
+
+services:
+  postgres:
+    build: "./postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: "testdb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+    restart: "always"
+
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: "always"
+
+  app:
+    build: "./app"
+    ports: 
+      - "8080:8080"
+    environment:
+      AMPQ_URL: "amqp://rabbitmq:5672"
+      PATIENT_SERVICE_URL: "http://patient:4321"
+      DOCTOR_SERVICE_URL: "http://doctor:4322"
+      APPOINMENT_SERVICE_URL: "http://appoinment:4323"
+    restart: "always"
+    depends_on:
+      - rabbitmq
+      - patient
+      - doctor
+      - appoinment
+
+  patient:
+    build: "./patient"
+    ports: 
+      - "4321:4321"
+    environment:
+      AMPQ_URL: "amqp://rabbitmq:5672"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DATABASE: "testdb"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: 5432
+    restart: "always"
+    depends_on:
+      - postgres
+      - rabbitmq
+  
+  doctor:
+    build: "./doctor"
+    ports: 
+      - "4322:4322"
+    environment:
+      AMPQ_URL: "amqp://rabbitmq:5672"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DATABASE: "testdb"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: 5432
+    restart: "always"
+    depends_on:
+      - postgres
+      - rabbitmq
+      
+  appoinment:
+    build: "./appoinment"
+    ports: 
+      - "4323:4323"
+    environment:
+      AMPQ_URL: "amqp://rabbitmq:5672"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DATABASE: "testdb"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: 5432
+    restart: "always"
+    depends_on:
+      - postgres
+      - rabbitmq   
+
