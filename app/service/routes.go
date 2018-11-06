@@ -1,6 +1,8 @@
 package service
 
 import (
+	"app/authentication"
+
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -52,5 +54,15 @@ var routes = Routes{
 		"GET",
 		"/appoinment/doctor/:id",
 		FindAllAppoinmentsForDoctor,
+	},
+	Route{
+		"GET",
+		"/jwt-token",
+		authentication.GenerateJwtToken,
+	},
+	Route{
+		"GET",
+		"/authindex",
+		authentication.AuthenticationMiddleware(Index),
 	},
 }
