@@ -11,4 +11,4 @@ RUN export GO111MODULES=on
 RUN go build
 
 # execute
-CMD ["./web-crawler", " http://yoyowallet.com/"]
+CMD ["./web-crawler", " http://google.com/"]
