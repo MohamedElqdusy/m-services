@@ -11,4 +11,4 @@
 Build
 `$ go build`
 ## 2- Run the service:
-`$ ./web-crawler http://yoyowallet.com/`
+`$ ./web-crawler http://google.com/`
