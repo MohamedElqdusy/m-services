@@ -1,0 +1,43 @@
+syntax = "proto3";
+package payment;
+
+option go_package = "payment";
+
+import "google/protobuf/timestamp.proto";
+
+message TransactionId{
+  uint64 id = 1;
+}
+
+message Transaction {
+  TransactionId id = 1;
+  uint64 fromId = 2;
+  uint64 toId = 3;
+  uint64 productId = 4;
+  uint64 amount = 5;
+  google.protobuf.Timestamp createdAt = 6;
+}
+
+message Transactions{
+  repeated Transaction transactionsList = 1;
+}
+
+message Response{
+  string message = 1;
+  ResponseType type = 2;
+}
+
+enum ResponseType {
+  OK = 0;
+  ERROR = 1;
+}
+
+message NoParam {}
+
+
+service todoService {
+  rpc createTransaction(Transaction) returns (Response) {}
+  rpc deleteTransaction(TransactionId) returns (Response) {}
+  rpc getTransaction(TransactionId) returns (Transaction) {}
+  rpc getTransactionsList(NoParam) returns (Transactions){}
+}
