@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS cars(dealer_id INTEGER NOT NULL,code character varying(20) ,make character varying(100),model character varying(100),kw INTEGER, year INTEGER, color character varying(100), price INTEGER, PRIMARY KEY (dealer_id, code));
